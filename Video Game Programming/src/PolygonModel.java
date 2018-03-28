@@ -1,94 +1,98 @@
 import java.awt.Graphics;
 
-public abstract class PolygonModel {
+public abstract class PolygonModel
+{
+  double x;
+  double y;
+  int A;
 
-	double x; // x position
-	double y; // y position
-	int A;    // Angle
-	static final int radius = 60;
+  static final int radius = 60;
+
+  final int[][] struct_x = struct_x();
+  final int[][] struct_y = struct_y();
+
+
+  public abstract int[][] struct_x();
+  public abstract int[][] struct_y();
+  
+  
+  public PolygonModel(int x, int y, int A)
+  {
+     this.x = x;
+     this.y = y;
+     this.A = A;
+     
+  }
+  public void draw(Graphics g)
+  {
 	
-	final int[][] struct_x = struct_x();
-	final int[][] struct_y = struct_y();
-	
-	public abstract int[][] struct_x();
-	public abstract int[][] struct_y();
-	
+     int[] xp;
+     int[] yp;
+    
+     double sinA = lookup.sin[A];
+     double cosA = lookup.cos[A];
 
-	/*
-	 * Where would you like this tank to be born? The origin should be unique
-	 * for the tanks and the position it's born in
-	 */
-	public PolygonModel(int x, int y, int A) {
-		this.x = x;
-		this.y = y;
-		this.A = A;
-	}
+     for(int poly = 0; poly < struct_x.length; poly++)
+     {
+    	 /*
+    	  * We initialize the arrays inside the loop on the chance that the amount of columns in one row are greater than
+    	  * the columns on another row. 
+    	  */
+    	 xp = new int[struct_x[poly].length];
+    	 yp = new int[struct_x[poly].length];
+    	 
+        for(int vert = 0; vert < struct_x[poly].length; vert++)
+        {
+        	if(xp.length == struct_x.length) {
+        		
+        	}
+           xp[vert] = (int)(struct_x[poly][vert]*cosA - struct_y[poly][vert]*sinA + x);
+           yp[vert] = (int)(struct_x[poly][vert]*sinA + struct_y[poly][vert]*cosA + y);
+        }
+        	
+        g.drawPolygon(xp, yp, struct_x[poly].length);
+        
+     }
+  }
 
-	public void draw(Graphics g) {
-		// used to translate the whole tank to another part of the screen
-		int[] xp = new int[3];
-		int[] yp = new int[3];
+  public boolean contains(int mx, int my)
+  {
+     double dist2 = (mx-x)*(mx-x) + (my-y)*(my-y);
 
-		double sinA = lookup.sin[A];
-		double cosA = lookup.cos[A];
+     return dist2  < radius * radius;
+  }
 
-		for (int poly = 0; poly < struct_x.length; poly++) {
-			System.out.println(poly);
+  public void moveForwardBy(int distance)
+  {
+     x += distance * Math.cos(A*Math.PI/180);
+     y += distance * Math.sin(A*Math.PI/180);
+  }
+  
+  public void moveBackwardBy(int distance)
+  {
+     x -= distance * Math.cos(A*Math.PI/180);
+     y -= distance * Math.sin(A*Math.PI/180);
+  }
+  
+  public void moveBy(int dx, int dy)
+  {
+      x += dx;
+      y += dy;
+  }
 
-			for (int vert = 0; vert < struct_x[poly].length; vert++) {
-				xp[vert] = (int) (struct_x[poly][vert] * cosA - struct_y[poly][vert] * sinA + x);
-				yp[vert] = (int) (struct_x[poly][vert] * sinA + struct_y[poly][vert] * cosA + y);
-			}
-			g.drawPolygon(xp, yp, 3);
-		}
 
-	}
+  public void rotateLeftBy(int dA)
+  {
+     A -= dA;
 
-	public void moveBy(int dx, int dy) {
-		x += dx;
-		y += dy;
+     if(A < 0)     A += 360;
+  }
 
-	}
+  public void rotateRightBy(int dA)
+  {
+     A += dA;
 
-	/*
-	 * public void rotateBy (int dA) { //adding the delta angle to the already
-	 * set A angle A+= dA; }
-	 */
-
-	public void rotateLeftBy(int dA) {
-
-		A -= dA;
-		if (A < 0) {
-			A += 360;
-		}
-	}
-
-	public void rotateRightBy(int dA) {
-
-		A += dA;
-		if (A >= 360) {
-			A -= 360;
-		}
-	}
-
-	public void moveForwardBy(int distance) {
-		x += distance * Math.cos(A * Math.PI / 180);
-		y += distance * Math.sin(A * Math.PI / 180);
-	}
-
-	public void moveBackwardBy(int distance) //
-	{
-		x -= distance * Math.cos(A * Math.PI / 180); // move in the x direction
-														// * the distance
-		y -= distance * Math.sin(A * Math.PI / 180); // move in the y direction
-														// * the distance
-
-	}
-
-	public boolean contains(int mx, int my) {
-		double dist2 = (mx - x) * (mx - x) + (my - y) * (my - y);
-
-		return (dist2 < radius * radius);
-	}
+     if(A >= 360)  A-= 360;
+  }
 
 }

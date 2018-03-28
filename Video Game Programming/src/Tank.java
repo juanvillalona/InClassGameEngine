@@ -8,8 +8,9 @@ public class Tank extends PolygonModel{
 	}
 	
 	public int[][] struct_x() {
-		final int[][] struct_x =  { { 35, 35, -35, -35 }, 
-				{ 5, 5, -5, -5 },
+		final int[][] struct_x =  { 
+				{ 35, 35, -35, -35}, 
+				{ 5, 5, -5, -5},
 				{ 30, 30, 5, 5 },
 				{ 27, 27, -27, -27 },
 				{ 27, 27, -27, -27 },
@@ -22,7 +23,7 @@ public class Tank extends PolygonModel{
 		final int[][] struct_y = 
 			{ 
 				{ -25, 25, 25, -25 }, 
-				{ -12, 12, 12, -12 },
+				{ -12, 12, 12, -12},
 				{ -3, 3, 3, -3 },
 				{ 25, 32, 32, 25 }, 
 				{ -26, -32, -32, -25 } 
@@ -30,4 +31,5 @@ public class Tank extends PolygonModel{
 		return struct_y;			
 	}
 }
+
 	

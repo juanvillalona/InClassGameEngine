@@ -182,13 +182,13 @@ public class Game extends Applet implements KeyListener, Runnable, MouseListener
 			if(rt_Pressed) activeTank.rotateRightBy(3);
 			if(up_Pressed) activeTank.moveForwardBy(3);
 			if(dn_Pressed) activeTank.moveBackwardBy(3);  
-			/*
-			//nothing happens unless we redraw the screen 
-			if(lt_Pressed) tank.moveBy(-10, 0);
-			if(rt_Pressed) tank.moveBy(10, 0);
-			if(up_Pressed) tank.moveBy(0, -10);
-			if(dn_Pressed) tank.moveBy(0, 10);
 			*/
+			//nothing happens unless we redraw the screen 
+			if(lt_Pressed) activeTank.rotateLeftBy(2);
+			if(rt_Pressed) activeTank.rotateRightBy(2);
+			if(up_Pressed) activeTank.moveForwardBy(2);
+			if(dn_Pressed) activeTank.moveBackwardBy(2);
+			
 			
 			
 			
